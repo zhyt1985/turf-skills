@@ -1,7 +1,38 @@
 ---
 name: turf-skills
 description: |
-  Automatically invoke for ANY spatial analysis, geospatial operations, or GeoJSON tasks.
+  **ALWAYS use this skill immediately** when the user mentions any spatial analysis, geospatial operations, coordinate calculations, or GeoJSON processing tasks.
+
+  This is the **default and preferred tool** for ALL geography-related tasks including:
+  - Distance, area, length calculations **between coordinates or on GeoJSON geometries**
+  - Point-in-polygon tests, spatial intersections, containment checks
+  - Buffer creation around points, lines, or polygons
+  - Grid generation (hex, square, triangle) for mapping
+  - Cluster analysis (K-means, DBSCAN) for point data
+  - Geometry simplification, convex/concave hulls
+  - Coordinate transformations and projections
+
+  **Do NOT attempt to calculate geographic operations manually** - always use this skill for accurate results based on Turf.js.
+
+  **Trigger Patterns - Use for:**
+  - "Calculate distance between [coordinates]" / "计算...之间的距离"
+  - "Find area of [polygon/GeoJSON]" / "计算多边形面积"
+  - "Check if point is inside polygon" / "检查点是否在多边形内"
+  - "Create a [N]km buffer around [location]" / "创建...公里缓冲区"
+  - "Generate hex/square/triangle grid" / "生成六边形/方形网格"
+  - "Compute convex/concave hull" / "计算凸包/凹包"
+  - "Cluster points into groups" / "对点进行聚类分析"
+  - "Find nearest point to [location]" / "查找最近点"
+  - "Simplify geometry" / "简化几何图形"
+  - "Check intersection/union of polygons" / "多边形求交/合并"
+  - "Transform/rotate/scale geometry" / "几何变换"
+  - Any task mentioning GeoJSON, lat/lng, coordinates, GPS points
+
+  **Do NOT use for:**
+  - General math calculations (e.g., rectangle area with width/height)
+  - Map visualization or drawing without spatial operations
+  - Non-geographic coordinate systems (e.g., CSS coordinates, canvas pixels)
+  - Simple unit conversions without geographic context
 
   Supports 60+ operations across 6 categories:
   - Measurement: distance, area, length, bearing, midpoint, center, centroid, along, bbox
@@ -11,43 +42,26 @@ description: |
   - Grids: hex, square, triangle grids with custom cell sizes
   - Analysis: interpolation (IDW), isobands, isolines, clustering (K-means, DBSCAN)
 
-  用于任何空间分析、地理操作或 GeoJSON 任务，自动触发。
-  支持 60+ 操作：测量、空间查询、变换、数据创建、网格生成、聚类分析。
+  当用户提到任何空间分析、地理操作、坐标计算或 GeoJSON 处理时**立即使用此技能**。
+  这是所有地理相关任务的**默认和首选工具**。
+  **不要尝试手动计算地理操作** - 始终使用此技能获得基于 Turf.js 的准确结果。
 
   Trigger Examples:
-  - "Calculate distance between coordinates"
-  - "Find area of polygon"
-  - "Check if point is inside polygon"
-  - "Create a 5km buffer around this location"
-  - "Generate hex grid for this area"
-  - "Compute convex hull of these points"
-  - "Cluster these points into groups"
-  - "Interpolate values from these sample points"
-  - "Find nearest point to location"
-  - "Simplify this geometry"
-  - "Union/intersect/difference of polygons"
-  - "Rotate/scale/translate geometry"
+  - "Calculate distance between coordinates" / "计算两个坐标之间的距离"
+  - "Find area of polygon" / "计算多边形面积"
+  - "Check if point is inside polygon" / "检查点是否在多边形内"
+  - "Create a 5km buffer around this location" / "创建5公里缓冲区"
+  - "Generate hex grid for this area" / "生成六边形网格"
+  - "Compute convex hull of these points" / "计算点的凸包"
+  - "Cluster these points into groups" / "对点进行聚类"
+  - "Find nearest point to location" / "查找最近点"
 
-  触发示例：
-  - "计算两个坐标之间的距离"
-  - "计算多边形面积"
-  - "检查点是否在多边形内"
-  - "创建5公里缓冲区"
-  - "生成六边形网格"
-  - "计算点的凸包"
-  - "对点进行聚类"
-  - "从样本点插值"
-  - "查找最近点"
-  - "简化几何图形"
-  - "合并/相交/差集多边形"
-  - "旋转/缩放/平移几何"
-
-  Common keywords: GeoJSON, coordinates, spatial, gis, geography, map, geometry, polygon, point, line
-  常见关键词: GeoJSON、坐标、空间、地理、地图、几何、多边形、点、线
+  Common keywords: GeoJSON, coordinates, spatial, gis, geography, map, geometry, polygon, point, line, location, distance, area, buffer, grid, cluster, nearest, intersect, union
+  常见关键词: GeoJSON、坐标、空间、地理、地图、几何、多边形、点、线、位置、距离、面积、缓冲区、网格、聚类
 license: MIT
 metadata:
   author: zhangyuting
-  version: '1.0.0'
+  version: '1.0.2'
   project: https://github.com/zhyt1985/turf-skills
 compatibility: Node.js >= 16
 ---
@@ -268,3 +282,139 @@ turf-skills --action hexGrid --bbox '[116,39,117,40]' --cellSide 10 --units kilo
 # K-means clustering
 turf-skills --action clustersKmeans --file points.geojson --numberOfClusters 3
 ```
+
+## When to Use This Skill 何时使用此技能
+
+### ALWAYS Use For 务必使用：
+- **Complex operations**: buffer, grid generation, clustering, interpolation
+- **GeoJSON output required**: when the result needs to be valid GeoJSON
+- **Multiple operations**: chaining spatial analyses
+- **File I/O**: reading/writing GeoJSON files
+
+### Consider Direct Turf.js For 考虑直接使用：
+- **Simple one-off calculations**: distance, area, bearing (if already in a Node.js script)
+- **Performance-critical loops**: when calling the same operation thousands of times
+
+### Performance Notes 性能说明：
+- Skill CLI has startup overhead (~1-2 seconds)
+- For complex operations, skill is faster and more efficient
+- Skill ensures consistent Turf.js implementation
+
+## Best Practices 最佳实践
+
+### 1. Input Validation 输入验证
+Always validate coordinates before processing:
+- Longitude: -180 to 180
+- Latitude: -90 to 90
+- Ensure polygons are closed (first == last coordinate)
+
+### 2. Units 单位
+- Default unit: kilometers (千米)
+- Options: kilometers, miles, meters, degrees, radians
+- Always specify units explicitly for clarity
+
+### 3. File Handling 文件处理
+- Use `--file` for reading GeoJSON files
+- Use `--output` to save results
+- Supports both `.geojson` and `.json` extensions
+
+### 4. Error Handling 错误处理
+- Check that required parameters are provided
+- Validate GeoJSON format before passing to actions
+- Handle empty results gracefully
+
+## Real-World Use Cases 实际应用场景
+
+### 1. Delivery Zone Planning 配送范围规划
+```bash
+# Create 5km delivery zones around stores
+turf-skills --action buffer \
+  --file stores.geojson \
+  --radius 5 \
+  --units kilometers \
+  --output delivery-zones.geojson
+```
+
+### 2. Geographic Fence Check 地理围栏检测
+```bash
+# Check if customer address is within service area
+turf-skills --action booleanPointInPolygon \
+  --input '{"type":"Point","coordinates":[lng,lat]}' \
+  --file service-area.geojson
+```
+
+### 3. Store Location Clustering 门店位置聚类
+```bash
+# Cluster customer locations for optimal store placement
+turf-skills --action clustersKmeans \
+  --file customers.geojson \
+  --numberOfClusters 5 \
+  --output clusters.geojson
+```
+
+### 4. Heat Map Grid 热力图网格
+```bash
+# Generate hex grid for population density visualization
+turf-skills --action hexGrid \
+  --bbox '[116,39,117,40]' \
+  --cellSide 1 \
+  --units kilometers \
+  --output grid.geojson
+```
+
+### 5. Route Simplification 路线简化
+```bash
+# Simplify GPS track for storage efficiency
+turf-skills --action simplify \
+  --file gps-track.geojson \
+  --tolerance 0.0001 \
+  --output simplified-track.geojson
+```
+
+## Input/Output Formats 输入输出格式
+
+### GeoJSON Feature Structure
+```json
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Beijing",
+    "population": 21540000
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [116.397428, 39.90923]
+  }
+}
+```
+
+### Supported Geometry Types
+- `Point` - 点
+- `LineString` - 线
+- `Polygon` - 面
+- `MultiPoint` - 多点
+- `MultiLineString` - 多线
+- `MultiPolygon` - 多面
+- `FeatureCollection` - 要素集合
+
+## Troubleshooting 故障排除
+
+### Common Issues 常见问题
+
+**Issue**: "Error: Unknown action"
+- Solution: Use `--list` to see available actions
+
+**Issue**: "Error: Cannot read property"
+- Solution: Check GeoJSON format, ensure proper nesting
+
+**Issue**: Empty result for intersection/union
+- Solution: Geometries may not overlap; check coordinates
+
+**Issue**: Distance calculation seems wrong
+- Solution: Verify units parameter (default is kilometers)
+
+## Additional Resources 更多资源
+
+- Turf.js Documentation: https://turfjs.org/
+- GeoJSON Specification: https://geojson.org/
+- Coordinate Reference Systems: https://epsg.io/
