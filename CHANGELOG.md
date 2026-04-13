@@ -7,28 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-- ESLint and Prettier configuration for code quality
-- CI/CD with GitHub Actions (test and release workflows)
-- Enhanced test coverage with error handling and edge case tests
-- Coverage reporting with nyc
-- CONTRIBUTING.md with development guidelines
-- Natural language patterns section to SKILL.md
-- More comprehensive package.json metadata
-- Development scripts (lint, format, coverage)
+## [1.0.3] - 2026-04-13
 
 ### Changed
 
-- Improved SKILL.md description with more active language
-- Expanded trigger keywords and examples
-- Better organization of documentation
+- Optimized `SKILL.md` frontmatter: shortened `description` to ~160 characters to comply with Agent Skill specification
+- Replaced all direct `turf-skills` CLI examples with `npx turf-skills` for better `npx skills` ecosystem compatibility
+- Updated `README.md`, `README.zh-CN.md`, and `INSTALL.md` with `npx skills` installation instructions
+- Bumped package version to 1.0.3
 
-### Fixed
-
-- Improved .npmignore to exclude development files properly
-
-## [1.0.0] - 2024-XX-XX
+## [1.0.0] - 2025-03-20
 
 ### Added
 
@@ -46,5 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - File input/output support
 - Unit conversion (kilometers, miles, meters)
 
-[Unreleased]: https://github.com/zhyt1985/turf-skills/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/zhyt1985/turf-skills/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/zhyt1985/turf-skills/releases/tag/v1.0.3
 [1.0.0]: https://github.com/zhyt1985/turf-skills/releases/tag/v1.0.0

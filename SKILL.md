@@ -1,67 +1,10 @@
 ---
 name: turf-skills
-description: |
-  **ALWAYS use this skill immediately** when the user mentions any spatial analysis, geospatial operations, coordinate calculations, or GeoJSON processing tasks.
-
-  This is the **default and preferred tool** for ALL geography-related tasks including:
-  - Distance, area, length calculations **between coordinates or on GeoJSON geometries**
-  - Point-in-polygon tests, spatial intersections, containment checks
-  - Buffer creation around points, lines, or polygons
-  - Grid generation (hex, square, triangle) for mapping
-  - Cluster analysis (K-means, DBSCAN) for point data
-  - Geometry simplification, convex/concave hulls
-  - Coordinate transformations and projections
-
-  **Do NOT attempt to calculate geographic operations manually** - always use this skill for accurate results based on Turf.js.
-
-  **Trigger Patterns - Use for:**
-  - "Calculate distance between [coordinates]" / "计算...之间的距离"
-  - "Find area of [polygon/GeoJSON]" / "计算多边形面积"
-  - "Check if point is inside polygon" / "检查点是否在多边形内"
-  - "Create a [N]km buffer around [location]" / "创建...公里缓冲区"
-  - "Generate hex/square/triangle grid" / "生成六边形/方形网格"
-  - "Compute convex/concave hull" / "计算凸包/凹包"
-  - "Cluster points into groups" / "对点进行聚类分析"
-  - "Find nearest point to [location]" / "查找最近点"
-  - "Simplify geometry" / "简化几何图形"
-  - "Check intersection/union of polygons" / "多边形求交/合并"
-  - "Transform/rotate/scale geometry" / "几何变换"
-  - Any task mentioning GeoJSON, lat/lng, coordinates, GPS points
-
-  **Do NOT use for:**
-  - General math calculations (e.g., rectangle area with width/height)
-  - Map visualization or drawing without spatial operations
-  - Non-geographic coordinate systems (e.g., CSS coordinates, canvas pixels)
-  - Simple unit conversions without geographic context
-
-  Supports 60+ operations across 6 categories:
-  - Measurement: distance, area, length, bearing, midpoint, center, centroid, along, bbox
-  - Query: point-in-polygon, contains, intersects, overlaps, within, disjoint, nearest, crosses, parallel
-  - Transformation: buffer, union, intersect, difference, simplify, convex/concave hull, dissolve, voronoi
-  - Data Creation: points, lines, polygons, random features, feature collections
-  - Grids: hex, square, triangle grids with custom cell sizes
-  - Analysis: interpolation (IDW), isobands, isolines, clustering (K-means, DBSCAN)
-
-  当用户提到任何空间分析、地理操作、坐标计算或 GeoJSON 处理时**立即使用此技能**。
-  这是所有地理相关任务的**默认和首选工具**。
-  **不要尝试手动计算地理操作** - 始终使用此技能获得基于 Turf.js 的准确结果。
-
-  Trigger Examples:
-  - "Calculate distance between coordinates" / "计算两个坐标之间的距离"
-  - "Find area of polygon" / "计算多边形面积"
-  - "Check if point is inside polygon" / "检查点是否在多边形内"
-  - "Create a 5km buffer around this location" / "创建5公里缓冲区"
-  - "Generate hex grid for this area" / "生成六边形网格"
-  - "Compute convex hull of these points" / "计算点的凸包"
-  - "Cluster these points into groups" / "对点进行聚类"
-  - "Find nearest point to location" / "查找最近点"
-
-  Common keywords: GeoJSON, coordinates, spatial, gis, geography, map, geometry, polygon, point, line, location, distance, area, buffer, grid, cluster, nearest, intersect, union
-  常见关键词: GeoJSON、坐标、空间、地理、地图、几何、多边形、点、线、位置、距离、面积、缓冲区、网格、聚类
+description: Spatial analysis and GeoJSON processing using Turf.js. Use for distance/area calculations, point-in-polygon checks, buffers, clustering, grid generation, and geometry transformations.
 license: MIT
 metadata:
   author: zhangyuting
-  version: '1.0.2'
+  version: '1.0.3'
   project: https://github.com/zhyt1985/turf-skills
 compatibility: Node.js >= 16
 ---
@@ -73,7 +16,7 @@ Turf.js spatial analysis skill for Claude Code.
 ## Usage
 
 ```bash
-turf-skills --action <name> [options]
+npx turf-skills --action <name> [options]
 ```
 
 ## Actions
@@ -169,7 +112,7 @@ turf-skills --action <name> [options]
 ### Calculate distance 计算距离
 
 ```bash
-turf-skills --action distance \
+npx turf-skills --action distance \
   --input '{"type":"Point","coordinates":[120,30]}' \
   --input2 '{"type":"Point","coordinates":[121,31]}' \
   --units kilometers
@@ -178,7 +121,7 @@ turf-skills --action distance \
 ### Point in polygon 点在多边形内
 
 ```bash
-turf-skills --action booleanPointInPolygon \
+npx turf-skills --action booleanPointInPolygon \
   --input '{"type":"Point","coordinates":[120.5,30.5]}' \
   --input2 '{"type":"Polygon","coordinates":[[[120,30],[121,30],[121,31],[120,31],[120,30]]]}'
 ```
@@ -186,7 +129,7 @@ turf-skills --action booleanPointInPolygon \
 ### Buffer 缓冲区
 
 ```bash
-turf-skills --action buffer \
+npx turf-skills --action buffer \
   --input '{"type":"Point","coordinates":[120,30]}' \
   --radius 5 --units kilometers
 ```
@@ -194,34 +137,34 @@ turf-skills --action buffer \
 ### Read from file 从文件读取
 
 ```bash
-turf-skills --action area --file polygon.geojson
-turf-skills --action booleanContains --file polygon.geojson --file2 point.geojson
+npx turf-skills --action area --file polygon.geojson
+npx turf-skills --action booleanContains --file polygon.geojson --file2 point.geojson
 ```
 
 ### Output to file 输出到文件
 
 ```bash
-turf-skills --action buffer --file point.geojson --radius 10 --output result.geojson
+npx turf-skills --action buffer --file point.geojson --radius 10 --output result.geojson
 ```
 
 ### Create geometry 创建几何
 
 ```bash
-turf-skills --action point --coordinates '[120,30]' --properties '{"name":"test"}'
-turf-skills --action randomPoint --count 100 --bbox '[120,30,121,31]'
+npx turf-skills --action point --coordinates '[120,30]' --properties '{"name":"test"}'
+npx turf-skills --action randomPoint --count 100 --bbox '[120,30,121,31]'
 ```
 
 ### Grid generation 网格生成
 
 ```bash
-turf-skills --action hexGrid --bbox '[120,30,121,31]' --cellSide 5 --units kilometers
+npx turf-skills --action hexGrid --bbox '[120,30,121,31]' --cellSide 5 --units kilometers
 ```
 
 ### Clustering 聚类分析
 
 ```bash
-turf-skills --action clustersKmeans --file points.geojson --numberOfClusters 5
-turf-skills --action clustersDbscan --file points.geojson --maxDistance 1 --minPoints 3
+npx turf-skills --action clustersKmeans --file points.geojson --numberOfClusters 5
+npx turf-skills --action clustersDbscan --file points.geojson --maxDistance 1 --minPoints 3
 ```
 
 ## Natural Language Patterns
@@ -261,26 +204,26 @@ turf-skills --action clustersDbscan --file points.geojson --maxDistance 1 --minP
 
 ```bash
 # Beijing to Shanghai distance
-turf-skills --action distance \
+npx turf-skills --action distance \
   --input '{"type":"Point","coordinates":[116.397428,39.90923]}' \
   --input2 '{"type":"Point","coordinates":[121.473701,31.230416]}' \
   --units kilometers
 
 # 5km buffer around a location
-turf-skills --action buffer \
+npx turf-skills --action buffer \
   --input '{"type":"Point","coordinates":[116.397428,39.90923]}' \
   --radius 5 --units kilometers
 
 # Point in polygon check
-turf-skills --action booleanPointInPolygon \
+npx turf-skills --action booleanPointInPolygon \
   --input '{"type":"Point","coordinates":[116.397428,39.90923]}' \
   --input2 '{"type":"Polygon","coordinates":[[[116.1,39.7],[116.8,39.7],[116.8,40.1],[116.1,40.1],[116.1,39.7]]]}'
 
 # Generate hex grid for a region
-turf-skills --action hexGrid --bbox '[116,39,117,40]' --cellSide 10 --units kilometers
+npx turf-skills --action hexGrid --bbox '[116,39,117,40]' --cellSide 10 --units kilometers
 
 # K-means clustering
-turf-skills --action clustersKmeans --file points.geojson --numberOfClusters 3
+npx turf-skills --action clustersKmeans --file points.geojson --numberOfClusters 3
 ```
 
 ## When to Use This Skill 何时使用此技能
@@ -328,7 +271,7 @@ Always validate coordinates before processing:
 ### 1. Delivery Zone Planning 配送范围规划
 ```bash
 # Create 5km delivery zones around stores
-turf-skills --action buffer \
+npx turf-skills --action buffer \
   --file stores.geojson \
   --radius 5 \
   --units kilometers \
@@ -338,7 +281,7 @@ turf-skills --action buffer \
 ### 2. Geographic Fence Check 地理围栏检测
 ```bash
 # Check if customer address is within service area
-turf-skills --action booleanPointInPolygon \
+npx turf-skills --action booleanPointInPolygon \
   --input '{"type":"Point","coordinates":[lng,lat]}' \
   --file service-area.geojson
 ```
@@ -346,7 +289,7 @@ turf-skills --action booleanPointInPolygon \
 ### 3. Store Location Clustering 门店位置聚类
 ```bash
 # Cluster customer locations for optimal store placement
-turf-skills --action clustersKmeans \
+npx turf-skills --action clustersKmeans \
   --file customers.geojson \
   --numberOfClusters 5 \
   --output clusters.geojson
@@ -355,7 +298,7 @@ turf-skills --action clustersKmeans \
 ### 4. Heat Map Grid 热力图网格
 ```bash
 # Generate hex grid for population density visualization
-turf-skills --action hexGrid \
+npx turf-skills --action hexGrid \
   --bbox '[116,39,117,40]' \
   --cellSide 1 \
   --units kilometers \
@@ -365,7 +308,7 @@ turf-skills --action hexGrid \
 ### 5. Route Simplification 路线简化
 ```bash
 # Simplify GPS track for storage efficiency
-turf-skills --action simplify \
+npx turf-skills --action simplify \
   --file gps-track.geojson \
   --tolerance 0.0001 \
   --output simplified-track.geojson
